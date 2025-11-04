@@ -7,18 +7,41 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 <body>
-<section class="section">
-    <div class="container">
-        <nav class="level">
-            <div class="level-left">
-                <div class="level-item">
-                    <h1 class="title">Tienda</h1>
-                </div>
-                <div class="level-item">
-                    <a class="button is-link" href="{{ route('products.index') }}">Camisetas</a>
+<nav class="navbar is-light" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="{{ url('/') }}">
+            <strong>TiendaUrban</strong>
+        </a>
+    </div>
+
+    <div class="navbar-menu">
+        <div class="navbar-start">
+            @auth
+                <a href="{{ route('products.index') }}" class="navbar-item">Productos</a>
+                <a href="{{ route('categories.index') }}" class="navbar-item">Categorías</a>
+            @endauth
+        </div>
+
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    @guest
+                        <a class="button is-light" href="{{ route('login') }}">Login</a>
+                        <a class="button is-primary" href="{{ route('register') }}">Registro</a>
+                    @else
+                        <form method="POST" action="{{ route('logout') }}" class="is-inline">
+                            @csrf
+                            <button class="button is-light" type="submit">Cerrar sesión</button>
+                        </form>
+                    @endguest
                 </div>
             </div>
-        </nav>
+        </div>
+    </div>
+</nav>
+
+<section class="section">
+    <div class="container">
 
         @if(session('success'))
             <div class="notification is-primary">{{ session('success') }}</div>

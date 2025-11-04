@@ -6,7 +6,10 @@
     <div class="box">
         <h2 class="subtitle">Crear camiseta</h2>
         <form method="POST" action="{{ route('products.store') }}">
-            @include('products._form')
+            @php
+    $categories = \App\Models\Category::orderBy('name')->pluck('name', 'id');
+@endphp
+@include('products._form', ['categories' => $categories])
         </form>
     </div>
 @endsection

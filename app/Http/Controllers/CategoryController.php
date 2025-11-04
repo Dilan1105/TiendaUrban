@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Category;
+use Illuminate\Http\Request;
+
+class CategoryController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $categories = Category::withCount('products')->orderBy('name')->get();
+        return view('categories.index', compact('categories'));
+    }
+
+    public function create()
+    {
+        return view('categories.form');
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255|unique:categories'
+        ]);
+
+        Category::create($data);
+
+        return redirect()->route('categories.index')
+            ->with('success', 'Categoría creada correctamente.');
+    }
+
+    public function edit(Category $category)
+    {
+        return view('categories.form', compact('category'));
+    }
+
+    public function update(Request $request, Category $category)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $category->id
+        ]);
+
+        $category->update($data);
+
+        return redirect()->route('categories.index')
+            ->with('success', 'Categoría actualizada correctamente.');
+    }
+
+    public function destroy(Category $category)
+    {
+        $category->delete();
+        return redirect()->route('categories.index')
+            ->with('success', 'Categoría eliminada correctamente.');
+    }
+}

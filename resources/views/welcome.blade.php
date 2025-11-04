@@ -49,6 +49,23 @@
                 </nav>
             @endif
         </header>
+
+        {{-- Sección: grid de camisetas agregadas --}}
+        @if(isset($products) && $products->isNotEmpty())
+            <section class="w-full lg:max-w-4xl max-w-[335px] mb-6">
+                <h2 class="font-medium mb-2">Camisetas agregadas</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    @foreach($products as $product)
+                        <div class="border rounded p-4 bg-white dark:bg-[#161615] shadow-sm">
+                            <div class="font-medium mb-1">{{ $product->name }}</div>
+                            <div class="text-sm text-[#706f6c] dark:text-[#A1A09A]">{{ \Illuminate\Support\Str::limit($product->description ?? '', 80) }}</div>
+                            <div class="mt-3 font-bold">40.000</div>
+                        </div>
+                    @endforeach
+                </div>
+            </section>
+        @endif
+
         <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
             <main class="flex max-w-[335px] w-full flex-col-reverse lg:max-w-4xl lg:flex-row">
                 <div class="text-[13px] leading-[20px] flex-1 p-6 pb-12 lg:p-20 bg-white dark:bg-[#161615] dark:text-[#EDEDEC] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] rounded-bl-lg rounded-br-lg lg:rounded-tl-lg lg:rounded-br-none">
