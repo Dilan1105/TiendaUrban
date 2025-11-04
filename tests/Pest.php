@@ -41,7 +41,19 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+/**
+ * Crea un producto de prueba con atributos predeterminados para testing.
+ * Esta función auxiliar reduce el código repetitivo en pruebas relacionadas con productos.
+ * 
+ * @param array $atributos Sobreescribe los atributos predeterminados del producto
+ * @return \App\Models\Product Instancia del modelo Product
+ */
+function crearProductoPrueba(array $atributos = [])
 {
-    // ..
+    return \App\Models\Product::factory()->create(array_merge([
+        'name' => 'Test Product',
+        'description' => 'Test Description',
+        'price' => 40000,
+        'stock' => 10
+    ], $attributes));
 }
